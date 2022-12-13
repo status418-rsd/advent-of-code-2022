@@ -9,15 +9,40 @@ fn main() {
         ("C", "scissors"),
         ("Z", "scissors"),
     ]);
-    let mut player_points: i32 = 0;
-    let mut cout: i32 = 0;
+    let mut player_points_round_1: i32 = 0;
+    let mut player_points_round_2: i32 = 0;
     let mut peekable = include_str!("input").lines().peekable();
     while let Some(line) = peekable.next() {
         let mut iter = line.split_whitespace();
-        player_points += get_points_for_round(strategy_map[iter.next().unwrap()], strategy_map[iter.next().unwrap()]);
-        cout += 1;
+        let opponent = strategy_map[iter.next().unwrap()];
+        let col_2 = iter.next().unwrap();
+        let player = strategy_map[col_2];
+        player_points_round_1 += get_points_for_round(opponent, player);
+        player_points_round_2 += get_points_for_round(opponent, get_player_choice(opponent, col_2));
     }
-    println!("{}", player_points);
+    println!("{}", player_points_round_1);
+    println!("{}", player_points_round_2);
+}
+
+fn get_player_choice(opponent: &str, val: &str) -> &'static str {
+    let map = HashMap::from([
+        ("rock", HashMap::from([
+            ("X", "scissors"),
+            ("Y", "rock"),
+            ("Z", "paper"),
+        ])),
+        ("paper", HashMap::from([
+            ("X", "rock"),
+            ("Y", "paper"),
+            ("Z", "scissors")
+        ])),
+        ("scissors", HashMap::from([
+            ("X", "paper"),
+            ("Y", "scissors"),
+            ("Z", "rock"),
+        ]))
+    ]);
+    return map[opponent][val];
 }
 
 fn get_points_for_round(opponent: &str, player: &str) -> i32 {
