@@ -28,6 +28,12 @@ fn main() {
 
         commands.push(result);
     }
+
+    println!("res_1: {}", execute_commands(commands.clone(), stacks.clone(), true));
+    println!("res_2: {}", execute_commands(commands.clone(), stacks.clone(), false));
+}
+
+fn execute_commands(commands: Vec<Vec<usize>>, mut stacks: Vec<Vec<&str>>, is_part_one: bool) -> String {
     for command in &commands {
         let from_stack: usize = command[1] - 1;
         let to_stack: usize = command[2] - 1;
@@ -35,10 +41,10 @@ fn main() {
         let end = stacks[from_stack].len();
 
         let mut drained_elements: Vec<_> = stacks[from_stack].drain(start..end).collect();
-        drained_elements.reverse();
+        if is_part_one { drained_elements.reverse(); }
         stacks[to_stack].extend(drained_elements);
 
     }
-    let res_1: String = stacks.iter().map(|row| row.last().unwrap().to_string()).collect();
-    println!("res_1: {}", res_1);
+    stacks.iter().map(|row| row.last().unwrap().to_string()).collect()
 }
+
