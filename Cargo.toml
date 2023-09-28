@@ -15,4 +15,5 @@ members = [
     "advent-03",
     "advent-04",
     "advent-05",
+    "advent-06",
 ]
