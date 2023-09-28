@@ -15,17 +15,17 @@ fn main() {
 }
 
 fn result(characters: &Vec<&str>, part_len: usize) -> usize {
-    let mut last_four: Vec<&str> = Vec::new();
+    let mut buffer: Vec<&str> = Vec::new();
     let mut res: usize = 0;
     for (i, char) in characters.iter().enumerate() {
-        if last_four.len() >= part_len && !has_duplicates(&last_four) {
+        if buffer.len() >= part_len && !has_duplicates(&buffer) {
             res = i;
             break;
         }
-        if last_four.len() >= part_len {
-            last_four.remove(0);
+        if buffer.len() >= part_len {
+            buffer.remove(0);
         }
-        last_four.push(char);
+        buffer.push(char);
     }
     res
 }
